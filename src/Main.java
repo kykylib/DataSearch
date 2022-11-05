@@ -1,3 +1,4 @@
+import java.time.LocalDate;
 import java.util.List;
 
 public class Main {
@@ -6,7 +7,6 @@ public class Main {
         List<Person> people = creator.generateListOfPeople();
         System.out.println(people);
         PersonFilter personFilter = new PersonFilter();
-        System.out.println(personFilter.filterAndGroupByOccupation(people,null,null,null,null));
-
+        System.out.println(personFilter.filterByOccupation(people,null,null,null,null,true));
     }
 }

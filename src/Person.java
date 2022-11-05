@@ -1,11 +1,11 @@
 import java.time.LocalDate;
 
 public class Person {
-    private String firstName;
-    private String lastName;
-    private LocalDate dateOfBirth;
-    private String occupation;
-    private boolean male;
+    final private String firstName;
+    final private String lastName;
+    final private LocalDate dateOfBirth;
+    final private String occupation;
+    final private boolean male;
 
     public String getFirstName() {
         return firstName;
@@ -39,8 +39,15 @@ public class Person {
         LocalDate currentDate = LocalDate.now();
         LocalDate birthDate = this.dateOfBirth;
         int age = currentDate.getYear() - birthDate.getYear();
-        boolean wasBirth = currentDate.getMonthValue() == birthDate.getMonthValue() ? currentDate.getDayOfMonth() > birthDate.getDayOfMonth() : currentDate.getMonthValue() > birthDate.getMonthValue();
-        if(!wasBirth){
+        boolean wasBirthThisYear = false;
+        boolean currentMonthIsTheSameBirthMonth = currentDate.getMonthValue() == birthDate.getMonthValue();
+        if(currentMonthIsTheSameBirthMonth){
+            wasBirthThisYear = currentDate.getDayOfMonth() > birthDate.getDayOfMonth();
+        }
+        if(!currentMonthIsTheSameBirthMonth){
+            wasBirthThisYear=currentDate.getMonthValue() > birthDate.getMonthValue();
+        }
+        if(!wasBirthThisYear){
             age-=1;
         }
         return age;
