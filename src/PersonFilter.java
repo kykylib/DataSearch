@@ -7,24 +7,24 @@ public class PersonFilter {
         List<Person> filteredGroup = new ArrayList<>();
         for(int i=0;i<group.size();i++){
             Person person = group.get(i);
-                boolean isMatch = !(stringFilter(person.getFirstName(), firstName));
-                if(isMatch){
+                boolean notMatch = !(stringFilter(person.getFirstName(), firstName));
+                if(notMatch){
                     continue;
                 }
-                isMatch = !(stringFilter(person.getLastName(),lastName));
-                if(isMatch){
+                notMatch = !(stringFilter(person.getLastName(),lastName));
+                if(notMatch){
                     continue;
                 }
-               isMatch = !(dateFilter(person.getDateOfBirth(),dateOfBirth));
-               if(isMatch){
+               notMatch = !(dateFilter(person.getDateOfBirth(),dateOfBirth));
+               if(notMatch){
                    continue;
                }
-               isMatch = !(stringFilter(person.getOccupation(),occupation));
-               if(isMatch){
+               notMatch = !(stringFilter(person.getOccupation(),occupation));
+               if(notMatch){
                    continue;
                }
-           isMatch = !(booleanFilter(person.isMale(),male));
-           if(isMatch){
+           notMatch = !(booleanFilter(person.isMale(),male));
+           if(notMatch){
                continue;
            }
            filteredGroup.add(person);
@@ -54,18 +54,15 @@ public class PersonFilter {
     }
 
     public Map<String,List> filterByOccupation(List<Person> group, String firstName, String lastName, LocalDate dateOfBirth, String occupation, boolean male){
-        HashMap<String,List> filteredGroupByOccupation = new HashMap<>();
+        Map<String,List> filteredGroupByOccupation = new HashMap<>();
         List<Person> filteredGroup = filter(group, firstName, lastName, dateOfBirth, occupation, male);
-        for(int i=0;i<filteredGroup.size();i++){
-            Person person = filteredGroup.get(i);
+        for(Person person:filteredGroup){
             String currentOccupation = person.getOccupation();
-            boolean hasKey = filteredGroupByOccupation.containsKey(currentOccupation);
-            if(hasKey){
-                filteredGroupByOccupation.get(currentOccupation).add(person);
+            List listByOccupation = filteredGroupByOccupation.get(currentOccupation);
+            if(listByOccupation == null){
+                filteredGroupByOccupation.put(currentOccupation,new ArrayList<>());
                 continue;
             }
-            List<Person> listOfPeople = new ArrayList<>();
-            filteredGroupByOccupation.put(currentOccupation,listOfPeople);
             filteredGroupByOccupation.get(currentOccupation).add(person);
         }
         return filteredGroupByOccupation;
